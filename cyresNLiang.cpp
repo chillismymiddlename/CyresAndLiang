@@ -79,7 +79,45 @@ void clippedLine(double u1,double u2)
 
 void LiangBarsky()
 {
-   // Compete this function
+    double delta_x = x_2 - x_1;
+    double delta_y = y_2 - y_1;
+    vector<double> p;
+    p.push_back(delta_x);
+    p.push_back(-delta_x);
+    p.push_back(delta_y);
+    p.push_back(-delta_y);
+
+    vector<double>q;
+    q.push_back(xmax - x_1);
+    q.push_back(x_1 - xmin);
+    q.push_back(ymax - y_1);
+    q.push_back(y_1 - ymin);
+
+
+    double u1 = 0,u2 = 1;
+    for (int i = 0; i < 4; ++i)
+    {
+        /* code */
+        if(p[i] < 0)
+            u1 = max(u1,q[i]/p[i]);
+        else if(p[i] >0)
+            u2 = min(u2,q[i]/p[i]);
+        else
+            if(q[i] < 0)
+            {
+                cout<<"Line outside the clipping window\n";
+                return;
+            }
+    }
+    if(u1 > u2)
+    {
+        cout<<"Line outside the clipping window\n";
+        return;
+    }
+    else
+    {
+        clippedLine(u1,u2);
+    }
 }
 
 void CyrusBeck()
@@ -156,7 +194,7 @@ void myKey(unsigned char key,int x,int y)
     if(key=='l')
     {
         glFlush();
-      //  LiangBarsky();
+        LiangBarsky();
     }
     else if(key=='c')
     {
